@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-dark-strong text-white scroll-smooth;
+}
+
+::-webkit-scrollbar {
+  @apply w-1 rounded-md;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-orange-500 rounded-md;
+}
+::-webkit-scrollbar-track {
+  @apply bg-dark-strong;
+}
+
+@layer components {
+    .btn-primary {
+      @apply py-1 px-3 bg-blue-500 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75;
+    }
+
+    .text-primary {
+      @apply font-semibold text-lg text-white;
+    }
+
+    .text-muted {
+      @apply text-white/50 text-sm font-semibold ;
+    }
+
+    .text-muted-hover {
+      @apply text-white/50 text-sm font-semibold hover:text-sky-500;
+    }
+  }
