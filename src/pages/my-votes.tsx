@@ -1,5 +1,6 @@
 import { NextPage } from "next";
 import Image from "next/image";
+import getFlagURL from "../utils/getFlagURL";
 import { trpc } from "../utils/trpc";
 
 const MyVotes: NextPage = () => {
@@ -51,11 +52,12 @@ const CountryWindowCompare: React.FC<ICountryWindowComparePROPS> = (props) => {
         >
             <div>
                 <Image
-                    src={ `https://countryflagsapi.com/png/${ props.iso2 }` }
+                    src={ getFlagURL('png', props.iso2) }
                     alt={ 'flaga' }
                     width={ 88 }
                     height={ 54 }
                     layout='fixed'
+                    priority
                 /> 
             </div>
             <div>{ props.name }</div>

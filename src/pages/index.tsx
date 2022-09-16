@@ -3,6 +3,7 @@ import { useSession } from "next-auth/react";
 // import { useSession } from "next-auth/react"; 
 import Image from "next/image";
 import React, { ForwardedRef, forwardRef, useRef, useState } from "react";
+import getFlagURL from "../utils/getFlagURL";
 import { inferQueryOutput, trpc } from "../utils/trpc";
 // import { trpc } from "../utils/trpc";
 
@@ -21,13 +22,11 @@ const Home: NextPage = () => {
   })
 
   const addClassToBtns = () => {
-    firstCountryRef.current?.classList.add('translate-x-[-200%]')
-    firstCountryRef.current?.classList.add('opacity-0')
-    secondCountryRef.current?.classList.add('translate-x-[200%]')
-    secondCountryRef.current?.classList.add('opacity-0')
+    firstCountryRef.current?.classList.add('translate-x-[-200%]', 'opacity-0')
+    secondCountryRef.current?.classList.add('translate-x-[200%]', 'opacity-0')
   }
 
-  const addBorderColors = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const addBorderColorsToBtns = (e: React.MouseEvent<HTMLButtonElement>) => {
     const idFirst = firstCountryRef?.current?.id
     if (e.currentTarget)
     if (e.currentTarget.id === idFirst) {
@@ -54,7 +53,7 @@ const Home: NextPage = () => {
   const handleVote = (e: React.MouseEvent<HTMLButtonElement>, votedFor?: number, votedAgainst?: number) => {
     if (!countriesPair || !votedFor || !votedAgainst) return 
     setIsDisable(true)
-    addBorderColors(e)
+    addBorderColorsToBtns(e)
     if (session?.user?.id) {
       protectedMutate({ votedFor, votedAgainst }) //logged in
     }
@@ -119,11 +118,12 @@ const CountryWindow = forwardRef((props: ICountryWindowPROPS, ref: ForwardedRef<
       }
     > 
       <Image
-        src={ `https://countryflagsapi.com/png/${ props.country.iso2 }` }
-        alt={ 'xd' }
+        src={ getFlagURL('png', props.country.iso2) }
+        alt={ 'flag' }
         width={ 220 }
         height={ 120 }
         layout='fixed'
+        priority
       />
       <div className='text text-center font-semibold text-lg'>
         { props.country.name }

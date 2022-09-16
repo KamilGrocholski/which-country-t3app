@@ -1,37 +1,94 @@
-import { NextPage } from "next"
-import { trpc } from "../utils/trpc"
+import { prisma } from "../server/db/client"
+import getFlagURL from "../utils/getFlagURL";
+import Image from "next/image";
+import AsyncReturnType from "../types/AsyncReturnType";
+import { GetServerSideProps, NextPage } from "next";
 
+type CountryAsyncReturnType = AsyncReturnType<typeof getCountriesWithVotesStats>
 
-const VotesResult: NextPage = () => {
-    const { data: countries } = trpc.useQuery(['countries.get-all-orderBy-votesFor'], {
-        refetchOnWindowFocus: false,
-        refetchInterval: false
+const getCountriesWithVotesStats = async () => {
+    const res = await prisma.country.findMany({
+        orderBy: {
+            votesFor: { _count: 'desc' }
+          },
+          select: {
+            id: true,   
+            name: true,
+            iso2: true,
+            _count: {
+              select: {
+                  votesFor: true,
+                  votesAgainst: true
+              }
+            }
+          }
     })
 
+    return res
+}
+
+const VotesResult: NextPage<{ countries: CountryAsyncReturnType }> = ({ countries }) => {
+// const VotesResult: NextPage = () => {
+
+    // const { data: countries } = trpc.useQuery(['countries.get-all-orderBy-votesFor'])
+
     return (
+        <div className='flex flex-col space-y-3'>
+        <CountryTableHead />
         <div className='overflow-y-scroll h-[70vh] p-3'>
             {countries && countries.map((c, i) => (
-                <div 
+                <CountryRow 
                     key={ i }
-                    className='grid grid-cols-5 gap-3'
-                >
-                    <div>
-                        {/* <Image 
-                            src={ `https://countryflagsapi.com/png/${ c.iso2 }` }
-                            alt={ 'flaga' }
-                            width={ 32 }
-                            height={ 12 }
-                            layout='fixed'
-                        /> */}
-                    </div>
-                    <div>{ c.name }</div>
-                    <div>Głosów: { c._count.votesFor + c._count.votesAgainst }</div>
-                    <div className='text-green-500'>Za: { c._count.votesFor }</div>
-                    <div className='text-red-500'>Przeciw: { c._count.votesAgainst }</div>
-                </div>
+                    { ...c }
+                />
             ))}
+        </div>
         </div>
     )
 }
 
 export default VotesResult
+
+const CountryTableHead: React.FC = () => {
+    return (
+        <div className='grid grid-cols-4 px-3 py-1 font-semibold border border-dark-medium bg-dark-light '>
+            <div>Państwo</div>
+            <div>Całkowita liczba głosów</div>
+            <div>Głosy za</div>
+            <div>Głosy przeciw</div>
+        </div>
+    )
+}
+
+const CountryRow: React.FC<CountryAsyncReturnType[0]> = (props) => {
+    return (
+        <div className='grid grid-cols-4 gap-3 border-b border-dark-medium hover:bg-dark-light'>
+            <div className='flex flex-row space-x-3'>
+                <div>
+                    <Image 
+                        src={ getFlagURL('png', props.iso2) }
+                        alt={ 'flaga' }
+                        width={ 32 }
+                        height={ 12 }
+                        layout='fixed'
+                        priority
+                    />
+                </div>
+                <div>{ props.name }</div>
+            </div>
+            <div>Głosów: { props._count.votesFor + props._count.votesAgainst }</div>
+            <div className='text-green-500'>Za: { props._count.votesFor }</div>
+            <div className='text-red-500'>Przeciw: { props._count.votesAgainst }</div>
+        </div>
+    )
+}
+
+export const getServerSideProps: GetServerSideProps = async () => {
+    const countries = await getCountriesWithVotesStats()
+
+    return {
+        props: {
+            countries
+        }
+    }
+}

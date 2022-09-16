@@ -33,13 +33,14 @@ const Nav = () => {
                             Wyniki głosowań
                         </div>
                     </Link>
+                    {session?.user &&
                     <Link
                         href='/my-votes'
                     >
                         <div className='text-muted-hover cursor-pointer'>
                             Twoje głosy
                         </div>
-                    </Link>
+                    </Link>}
                 </div>
                 {session?.user ?
                 <>
