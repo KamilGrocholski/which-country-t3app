@@ -28,9 +28,6 @@ const getCountriesWithVotesStats = async () => {
 }
 
 const VotesResult: NextPage<{ countries: CountryAsyncReturnType }> = ({ countries }) => {
-// const VotesResult: NextPage = () => {
-
-    // const { data: countries } = trpc.useQuery(['countries.get-all-orderBy-votesFor'])
 
     return (
         <div className='flex flex-col space-y-3'>
