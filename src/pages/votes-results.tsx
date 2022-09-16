@@ -66,7 +66,7 @@ const CountryRow: React.FC<CountryAsyncReturnType[0]> = (props) => {
                         src={ getFlagURL('png', props.iso2) }
                         alt={ 'flaga' }
                         width={ 32 }
-                        height={ 12 }
+                        height={ 14 }
                         layout='fixed'
                         priority
                     />
