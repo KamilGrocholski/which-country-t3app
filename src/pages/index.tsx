@@ -1,11 +1,9 @@
 import type { NextPage } from "next";
 import { useSession } from "next-auth/react";
-// import { useSession } from "next-auth/react"; 
 import Image from "next/image";
 import React, { ForwardedRef, forwardRef, useRef, useState } from "react";
 import getFlagURL from "../utils/getFlagURL";
 import { inferQueryOutput, trpc } from "../utils/trpc";
-// import { trpc } from "../utils/trpc";
 
 const Home: NextPage = () => {
 
@@ -39,15 +37,10 @@ const Home: NextPage = () => {
     }
   }
 
-  const { mutate: noAccMutate } = trpc.useMutation(['vote.cast'], {
+  const { mutate } = trpc.useMutation([session?.user?.id ? 'me.cast-vote' : 'vote.cast'], { 
     onSuccess() {
       addClassToBtns()
-    }
-  })
-
-  const { mutate: protectedMutate } = trpc.useMutation(['me.cast-vote'], {
-    onSuccess() {
-      addClassToBtns()
+      refetch()
     }
   })
   
@@ -55,15 +48,7 @@ const Home: NextPage = () => {
     if (!countriesPair || !votedFor || !votedAgainst) return 
     setIsDisable(true)
     addBorderColorsToBtns(e)
-    if (session?.user?.id) {
-      protectedMutate({ votedFor, votedAgainst }) //logged in
-    }
-    if (!session?.user?.id) {
-      noAccMutate({ votedFor, votedAgainst }) // not logged in
-    }
-    setTimeout(() => {
-      refetch()
-    }, 650)
+    mutate({ votedFor, votedAgainst })
     setIsDisable(false)
   }
 
