@@ -19,6 +19,7 @@ const Home: NextPage = () => {
     refetchInterval: false,
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
+    refetchOnMount: false
   })
 
   const addClassToBtns = () => {

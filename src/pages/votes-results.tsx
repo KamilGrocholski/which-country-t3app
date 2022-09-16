@@ -34,15 +34,15 @@ const VotesResult: NextPage<{ countries: CountryAsyncReturnType }> = ({ countrie
 
     return (
         <div className='flex flex-col space-y-3'>
-        <CountryTableHead />
-        <div className='overflow-y-scroll h-[70vh] p-3'>
-            {countries && countries.map((c, i) => (
-                <CountryRow 
-                    key={ i }
-                    { ...c }
-                />
-            ))}
-        </div>
+            <CountryTableHead />
+            <div className='overflow-y-scroll h-[70vh] p-3'>
+                {countries && countries.map((c, i) => (
+                    <CountryRow 
+                        key={ i }
+                        { ...c }
+                    />
+                ))}
+            </div>
         </div>
     )
 }
