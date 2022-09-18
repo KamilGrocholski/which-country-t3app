@@ -79,7 +79,7 @@ const CountryRow: React.FC<CountryAsyncReturnType[number] & { place: number }> =
                 </div>
                 <div>
                     <Image 
-                        src={ getFlagURL(props.iso2, 'w40') }
+                        src={ getFlagURL(props.iso2) }
                         alt={ 'flaga' }
                         width={ 32 }
                         height={ 14 }

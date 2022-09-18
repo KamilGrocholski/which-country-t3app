@@ -100,7 +100,7 @@ const CountryWindow = forwardRef((props: ICountryWindowPROPS, ref: ForwardedRef<
       }
     > 
       <Image
-        src={ getFlagURL(props.country.iso2, 'w320') }
+        src={ getFlagURL(props.country.iso2) }
         alt={ 'flag' }
         width={ 220 }
         height={ 120 }

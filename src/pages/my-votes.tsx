@@ -52,7 +52,7 @@ const CountryWindowCompare: React.FC<ICountryWindowComparePROPS> = (props) => {
         >
             <div>
                 <Image
-                    src={ getFlagURL(props.iso2, 'w320') }
+                    src={ getFlagURL(props.iso2) }
                     alt={ 'flaga' }
                     width={ 88 }
                     height={ 54 }
