@@ -5,6 +5,7 @@ import React, { ForwardedRef, forwardRef, useRef, useState } from "react";
 import getFlagURL from "../utils/getFlagURL";
 import { inferQueryOutput, trpc } from "../utils/trpc";
 
+
 const Home: NextPage = () => {
 
   const { data: session } = useSession()
@@ -13,12 +14,7 @@ const Home: NextPage = () => {
   const firstCountryRef = useRef<HTMLButtonElement>(null)
   const secondCountryRef = useRef<HTMLButtonElement>(null)
 
-  const { data: countriesPair, refetch } = trpc.useQuery(['countries.get-country-pair'], {
-    refetchInterval: false,
-    refetchOnReconnect: false,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false
-  })
+  const { data: countriesPair, refetch } = trpc.useQuery(['countries.get-country-pair'])
 
   const addClassToBtns = () => {
     firstCountryRef.current?.classList.add('translate-x-[-200%]', 'opacity-0')
@@ -104,7 +100,7 @@ const CountryWindow = forwardRef((props: ICountryWindowPROPS, ref: ForwardedRef<
       }
     > 
       <Image
-        src={ getFlagURL('png', props.country.iso2) }
+        src={ getFlagURL(props.country.iso2, 'w320') }
         alt={ 'flag' }
         width={ 220 }
         height={ 120 }
@@ -118,7 +114,7 @@ const CountryWindow = forwardRef((props: ICountryWindowPROPS, ref: ForwardedRef<
   )
 })
 
-export default Home;
+export default Home
 
 
 

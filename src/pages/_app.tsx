@@ -34,6 +34,7 @@ export default withTRPC<AppRouter>({
      * If you want to use SSR, you need to use the server's full URL
      * @link https://trpc.io/docs/ssr
      */
+
     const url = `${getBaseUrl()}/api/trpc`;
 
     return {
@@ -50,7 +51,16 @@ export default withTRPC<AppRouter>({
       /**
        * @link https://react-query.tanstack.com/reference/QueryClient
        */
-      queryClientConfig: { defaultOptions: { queries: { staleTime: 60 } } },
+      queryClientConfig: { 
+        defaultOptions: { 
+          queries: { 
+            refetchOnMount: false,
+            refetchInterval: false,
+            refetchOnReconnect: false,
+            refetchOnWindowFocus: false
+          } 
+        } 
+      },
 
       // To use SSR properly you need to forward the client's headers to the server
       headers: () => {

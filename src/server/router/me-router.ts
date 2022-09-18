@@ -8,10 +8,13 @@ export const meRouter = createProtectedRouter()
                 where: {
                     id: ctx.session.user.id
                 },
-                include: {
+                select: {
                     votes: {
+                        orderBy: {
+                            id: 'desc'
+                        },
                         take: 30,
-                        include: {
+                        select: {
                             votedFor: true,
                             votedAgainst: true
                         }

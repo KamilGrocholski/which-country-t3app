@@ -2,9 +2,20 @@
 
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerAuthSession } from "../../server/common/get-server-auth-session";
+import getRandomIds from "../../server/utils/getRandomIds";
+import { prisma } from "../../server/db/client";
 
 const restricted = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getServerAuthSession({ req, res });
+
+  const nCountries = await prisma.country.count()
+  const twoRandomIds = getRandomIds(1, nCountries)
+  const pair = await prisma.country.findMany({
+    where: {
+      id: { in: twoRandomIds }
+    }
+  })
+  return { firstCountry: pair[0], secondCountry: pair[1] }
 
   if (session) {
     res.send({

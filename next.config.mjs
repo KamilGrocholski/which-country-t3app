@@ -21,7 +21,8 @@ export default defineNextConfig({
   images: {
     domains: [
       'cdn.discordapp.com',
-      'countryflagsapi.com'
+      'countryflagsapi.com',
+      'flagcdn.com',
     ],
   }
 });
