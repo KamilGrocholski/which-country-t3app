@@ -8,6 +8,7 @@ import superjson from "superjson";
 import Layout from "../components/Layout";
 import type { AppRouter } from "../server/router";
 import "../styles/globals.css";
+import '../styles/loader.css'
 
 const MyApp: AppType = ({
   Component,

@@ -3,6 +3,8 @@ import { useSession, signIn, signOut } from "next-auth/react"
 import Image from "next/image"
 import Logout from "../assets/svg/Logout"
 import Login from "../assets/svg/Login"
+import Loader from "./Loader"
+import Head from "next/head"
 
 const Nav = () => {
 
@@ -14,7 +16,9 @@ const Nav = () => {
                 <Link
                     href='/'
                 >
-                    NazwaStrony
+                    <div className='text-xl'>
+                        Panie, gdzie żyć?
+                    </div>
                 </Link>
             </div>
             <div className='grow flex flex-row justify-end space-x-5'>
@@ -86,8 +90,12 @@ const Main = ({ children }: { children: JSX.Element | JSX.Element[] }) => {
     const { status } = useSession()
     return (
         <main className='h-screen w-screen flex justify-center items-center overflow-y-hidden overflow-x-hidden pt-[76px]'>
+            <Head>
+                <title>Panie, gdzie żyć</title>
+                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+            </Head>
             {status === 'loading' ?
-            <div>Ładowanie...</div> :
+            <Loader /> :
             <>{ children }</>}
         </main>
     )
