@@ -5,7 +5,10 @@ import { trpc } from "../utils/trpc";
 
 const MyVotes: NextPage = () => {
 
-    const { data: user } = trpc.useQuery(['me.get-the-most-recent'])
+    const { data: user } = trpc.useQuery(['me.get-the-most-recent'], {
+        refetchOnMount: true,
+        refetchOnReconnect: true
+    })
 
     return (
         <div className='overflow-y-scroll max-h-[70vh]'>

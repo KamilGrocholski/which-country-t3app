@@ -16,7 +16,7 @@ const Nav = () => {
                 <Link
                     href='/'
                 >
-                    <div className='text-xl'>
+                    <div className='text-xl cursor-pointer'>
                         Panie, gdzie żyć?
                     </div>
                 </Link>
